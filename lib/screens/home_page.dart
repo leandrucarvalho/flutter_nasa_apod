@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_nasa_apod/models/apod_pagination_model.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../di/di_setup.dart';
+import '../models/apod_pagination_model.dart';
 import '../stores/apod_store.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final apodStore = GetIt.I<ApodStore>();
-    setupLocator();
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  final apodStore = GetIt.I<ApodStore>();
+  @override
+  void initState() {
+    super.initState();
+    apodStore.fetchApod(ApodPaginationModel(count: 10));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('APOD List'),
+        centerTitle: true,
       ),
       body: Observer(
         builder: (context) {
@@ -38,17 +47,24 @@ class HomePage extends StatelessWidget {
               );
             case FutureStatus.fulfilled:
               final apodList = apodStore.apodFuture!.result!;
-              return ListView.builder(
+              return ListView.separated(
                 itemCount: apodList.length,
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 8,
+                ),
                 itemBuilder: (context, index) {
                   if (index >= apodStore.apodFuture!.result!.length) {
-                    return null; // Se index for maior ou igual à quantidade disponível, retorne nulo
+                    return null;
                   }
                   final apod = apodList[index];
                   return ListTile(
                     title: Text(apod.title),
-                    subtitle: Text(apod.explanation),
-                    leading: Image.network(apod.url),
+                    //subtitle: Text(apod.explanation),
+                    leading: Image.network(
+                      apod.url,
+                      height: 200,
+                      width: 200,
+                    ),
                   );
                 },
               );

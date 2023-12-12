@@ -5,8 +5,8 @@ import 'package:flutter_nasa_apod/di/di_setup.dart';
 import 'screens/home_page.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env");
   setupLocator();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
