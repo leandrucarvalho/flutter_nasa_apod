@@ -25,20 +25,25 @@ class _DatailPageState extends State<DatailPage> {
       appBar: AppBar(
         title: const Text("Detalhes"),
       ),
-      body: Column(
-        children: [
-          Image.network(
-            widget.imageUrl,
-            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Image.network(
+                widget.imageUrl,
+                fit: BoxFit.cover,
+              ),
+              Text(
+                widget.subtitle,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.justify,
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Text(
-              widget.subtitle,
-              style: const TextStyle(fontSize: 18),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
