@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../models/apod_pagination_model.dart';
 import '../stores/apod_store.dart';
+import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final apodStore = GetIt.I<ApodStore>();
+
   @override
   void initState() {
     super.initState();
@@ -53,23 +55,40 @@ class _HomePageState extends State<HomePage> {
                   height: 8,
                 ),
                 itemBuilder: (context, index) {
-                  if (index >= apodStore.apodFuture!.result!.length) {
-                    return null;
-                  }
                   final apod = apodList[index];
-                  return ListTile(
-                    title: Text(apod.title),
-                    //subtitle: Text(apod.explanation),
-                    leading: Image.network(
-                      apod.url,
-                      height: 200,
-                      width: 200,
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DatailPage(
+                              imageUrl: apod.url,
+                              subtitle: apod.explanation,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        elevation: 5,
+                        child: Column(
+                          children: [
+                            Image.network(
+                              apod.url,
+                            ),
+                            Text(apod.title)
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
               );
             default:
-              return Container(); // Você pode ajustar isso conforme necessário
+              return const Center(
+                child: Text("Ocorreu um problema. Tente novamente mais tarde"),
+              );
           }
         },
       ),
