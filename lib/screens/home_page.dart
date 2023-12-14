@@ -5,7 +5,6 @@ import 'package:mobx/mobx.dart';
 
 import '../models/apod_pagination_model.dart';
 import '../stores/apod_store.dart';
-import '../widgets/build_media_custom.dart';
 import 'detail_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,9 +64,8 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DatailPage(
-                              url: apod.url,
+                              imageUrl: apod.url,
                               subtitle: apod.explanation,
-                              mediaType: apod.mediaType,
                             ),
                           ),
                         );
@@ -76,7 +74,9 @@ class _HomePageState extends State<HomePage> {
                         elevation: 5,
                         child: Column(
                           children: [
-                            buildMediaWidget(apod.mediaType, apod.url),
+                            Image.network(
+                              apod.url,
+                            ),
                             Text(apod.title)
                           ],
                         ),

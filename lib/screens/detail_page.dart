@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../stores/apod_store.dart';
-import '../widgets/build_media_custom.dart';
 
 class DatailPage extends StatefulWidget {
-  final String mediaType;
-  final String url;
+  final String imageUrl;
   final String subtitle;
-
   const DatailPage({
     super.key,
-    required this.url,
+    required this.imageUrl,
     required this.subtitle,
-    required this.mediaType,
   });
 
   @override
@@ -34,7 +30,10 @@ class _DatailPageState extends State<DatailPage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              buildMediaWidget(widget.mediaType, widget.url),
+              Image.network(
+                widget.imageUrl,
+                fit: BoxFit.cover,
+              ),
               Text(
                 widget.subtitle,
                 style: const TextStyle(
