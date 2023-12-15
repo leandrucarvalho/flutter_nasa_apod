@@ -31,25 +31,12 @@ class _DatailPageState extends State<DatailPage> {
   @override
   void initState() {
     super.initState();
-    _initPlayer();
+
     buildMediaWidget(widget.mediaType, widget.url);
-  }
-
-  void _initPlayer() async {
-    videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(widget.url));
-    await videoPlayerController.initialize();
-
-    chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      autoPlay: false,
-      looping: false,
-    );
   }
 
   @override
   void dispose() {
-    chewieController.dispose();
     super.dispose();
   }
 
@@ -67,18 +54,21 @@ class _DatailPageState extends State<DatailPage> {
               future: buildMediaWidget(widget.mediaType, widget.url),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return snapshot.data ?? Container();
+                  return snapshot.data ??
+                      const Text("Não foi possível carregar o vídeo");
                 } else {
                   return const CircularProgressIndicator();
                 }
               },
             ),
-            Text(
-              widget.subtitle,
-              style: const TextStyle(
-                fontSize: 18,
+            Expanded(
+              child: Text(
+                widget.subtitle,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.justify,
               ),
-              textAlign: TextAlign.justify,
             )
           ],
         ),
