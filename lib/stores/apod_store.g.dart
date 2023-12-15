@@ -25,6 +25,22 @@ mixin _$ApodStore on ApodStoreBase, Store {
     });
   }
 
+  late final _$isPlayingAtom =
+      Atom(name: 'ApodStoreBase.isPlaying', context: context);
+
+  @override
+  bool get isPlaying {
+    _$isPlayingAtom.reportRead();
+    return super.isPlaying;
+  }
+
+  @override
+  set isPlaying(bool value) {
+    _$isPlayingAtom.reportWrite(value, super.isPlaying, () {
+      super.isPlaying = value;
+    });
+  }
+
   late final _$fetchApodAsyncAction =
       AsyncAction('ApodStoreBase.fetchApod', context: context);
 
@@ -33,10 +49,25 @@ mixin _$ApodStore on ApodStoreBase, Store {
     return _$fetchApodAsyncAction.run(() => super.fetchApod(pagination));
   }
 
+  late final _$ApodStoreBaseActionController =
+      ActionController(name: 'ApodStoreBase', context: context);
+
+  @override
+  void setPlaying(bool value) {
+    final _$actionInfo = _$ApodStoreBaseActionController.startAction(
+        name: 'ApodStoreBase.setPlaying');
+    try {
+      return super.setPlaying(value);
+    } finally {
+      _$ApodStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-apodFuture: ${apodFuture}
+apodFuture: ${apodFuture},
+isPlaying: ${isPlaying}
     ''';
   }
 }

@@ -1,17 +1,23 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-Widget buildMediaWidget(String mediaType, String mediaUrl) {
+Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
   if (mediaType == 'video') {
-    return Container(
-      width: double.infinity,
-      height: 200,
-      color: Colors.black,
-      child: const Center(
-        child: Icon(
-          Icons.play_circle_outline,
-          size: 50,
-          color: Colors.white,
-        ),
+    final VideoPlayerController videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(mediaUrl));
+    await videoPlayerController.initialize();
+    final ChewieController chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      autoPlay: true,
+      looping: true,
+    );
+
+    return SizedBox(
+      height: 500,
+      width: 500,
+      child: Chewie(
+        controller: chewieController,
       ),
     );
   } else {

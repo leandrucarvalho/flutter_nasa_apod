@@ -23,4 +23,12 @@ abstract class ApodStoreBase with Store {
     );
     apodFuture = ObservableFuture(_apodService.fetchApods(limitedPagination));
   }
+
+  @observable
+  bool isPlaying = false;
+
+  @action
+  void setPlaying(bool value) {
+    isPlaying = value;
+  }
 }

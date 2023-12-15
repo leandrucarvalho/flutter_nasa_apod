@@ -76,7 +76,18 @@ class _HomePageState extends State<HomePage> {
                         elevation: 5,
                         child: Column(
                           children: [
-                            buildMediaWidget(apod.mediaType, apod.url),
+                            FutureBuilder<Widget>(
+                              future:
+                                  buildMediaWidget(apod.mediaType, apod.url),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return snapshot.data ?? Container();
+                                } else {
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                            ),
                             Text(apod.title)
                           ],
                         ),
