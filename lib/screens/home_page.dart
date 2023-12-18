@@ -17,15 +17,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final apodStore = GetIt.I<ApodStore>();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     apodStore.fetchApod(ApodPaginationModel(count: 10));
+    _scrollController.addListener(() {
+      // Verifica se o usuário chegou ao final da lista
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        // Carrega mais itens
+        apodStore.fetchMoreApod();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -60,6 +70,7 @@ class _HomePageState extends State<HomePage> {
             case FutureStatus.fulfilled:
               final apodList = apodStore.apodFuture!.result!;
               return ListView.separated(
+                controller: _scrollController,
                 itemCount: apodList.length,
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 8,
@@ -87,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             FutureBuilder<Widget>(
                               future:
-                                  buildMediaWidget(apod.mediaType, apod.url),
+                                  buildMediaWidget(apod.mediaType, apod?.url),
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.done) {

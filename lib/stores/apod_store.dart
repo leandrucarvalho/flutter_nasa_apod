@@ -25,10 +25,14 @@ abstract class ApodStoreBase with Store {
   }
 
   @observable
-  bool isPlaying = false;
+  int currentPage = 1;
 
   @action
-  void setPlaying(bool value) {
-    isPlaying = value;
+  Future<void> fetchMoreApod() async {
+    currentPage++;
+    final pagination = ApodPaginationModel(count: 10 * currentPage);
+    apodFuture = ObservableFuture(
+      _apodService.fetchApods(pagination),
+    );
   }
 }

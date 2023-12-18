@@ -25,19 +25,19 @@ mixin _$ApodStore on ApodStoreBase, Store {
     });
   }
 
-  late final _$isPlayingAtom =
-      Atom(name: 'ApodStoreBase.isPlaying', context: context);
+  late final _$currentPageAtom =
+      Atom(name: 'ApodStoreBase.currentPage', context: context);
 
   @override
-  bool get isPlaying {
-    _$isPlayingAtom.reportRead();
-    return super.isPlaying;
+  int get currentPage {
+    _$currentPageAtom.reportRead();
+    return super.currentPage;
   }
 
   @override
-  set isPlaying(bool value) {
-    _$isPlayingAtom.reportWrite(value, super.isPlaying, () {
-      super.isPlaying = value;
+  set currentPage(int value) {
+    _$currentPageAtom.reportWrite(value, super.currentPage, () {
+      super.currentPage = value;
     });
   }
 
@@ -49,25 +49,19 @@ mixin _$ApodStore on ApodStoreBase, Store {
     return _$fetchApodAsyncAction.run(() => super.fetchApod(pagination));
   }
 
-  late final _$ApodStoreBaseActionController =
-      ActionController(name: 'ApodStoreBase', context: context);
+  late final _$fetchMoreApodAsyncAction =
+      AsyncAction('ApodStoreBase.fetchMoreApod', context: context);
 
   @override
-  void setPlaying(bool value) {
-    final _$actionInfo = _$ApodStoreBaseActionController.startAction(
-        name: 'ApodStoreBase.setPlaying');
-    try {
-      return super.setPlaying(value);
-    } finally {
-      _$ApodStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<void> fetchMoreApod() {
+    return _$fetchMoreApodAsyncAction.run(() => super.fetchMoreApod());
   }
 
   @override
   String toString() {
     return '''
 apodFuture: ${apodFuture},
-isPlaying: ${isPlaying}
+currentPage: ${currentPage}
     ''';
   }
 }
