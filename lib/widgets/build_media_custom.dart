@@ -1,25 +1,30 @@
-import 'package:chewie/chewie.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
   if (mediaType == 'video') {
-    final VideoPlayerController videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(mediaUrl));
-
-    await videoPlayerController.initialize();
-
-    final ChewieController chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      autoPlay: false,
-      looping: false,
+    log('mediaUrl: $mediaUrl');
+    YoutubePlayerController controller = YoutubePlayerController(
+      initialVideoId: 'iLnmTe5Q2Qw',
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
     );
 
     return SizedBox(
       height: 500,
       width: 500,
-      child: Chewie(
-        controller: chewieController,
+      child: YoutubePlayer(
+        controller: controller,
+        showVideoProgressIndicator: true,
+        progressColors: const ProgressBarColors(
+          playedColor: Colors.amber,
+          handleColor: Colors.amberAccent,
+        ),
+        onReady: () {},
       ),
     );
   } else {

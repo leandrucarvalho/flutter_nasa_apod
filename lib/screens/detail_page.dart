@@ -1,7 +1,5 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:video_player/video_player.dart';
 
 import '../stores/apod_store.dart';
 import '../widgets/build_media_custom.dart';
@@ -23,24 +21,16 @@ class DatailPage extends StatefulWidget {
 }
 
 class _DatailPageState extends State<DatailPage> {
-  late ChewieController? chewieController;
-  late VideoPlayerController? videoPlayerController;
-
   final apodStore = GetIt.I<ApodStore>();
 
   @override
   void initState() {
     super.initState();
-    videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(widget.url));
-
     buildMediaWidget(widget.mediaType, widget.url);
   }
 
   @override
   void dispose() {
-    videoPlayerController?.dispose();
-    chewieController?.dispose();
     super.dispose();
   }
 
