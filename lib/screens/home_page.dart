@@ -33,8 +33,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('APOD List'),
+        title: const Text(
+          "APOD List",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: Observer(
         builder: (context) {

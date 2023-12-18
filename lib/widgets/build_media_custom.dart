@@ -1,15 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
   if (mediaType == 'video') {
-    log('mediaUrl: $mediaUrl');
+    String videoId = _getYoutubeVideoId(mediaUrl);
+
     YoutubePlayerController controller = YoutubePlayerController(
-      initialVideoId: 'iLnmTe5Q2Qw',
+      initialVideoId: videoId,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: true,
       ),
     );
@@ -21,8 +20,8 @@ Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
         controller: controller,
         showVideoProgressIndicator: true,
         progressColors: const ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amberAccent,
+          playedColor: Colors.blue,
+          handleColor: Colors.blueAccent,
         ),
         onReady: () {},
       ),
@@ -35,4 +34,11 @@ Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
       height: 300,
     );
   }
+}
+
+String _getYoutubeVideoId(String url) {
+  RegExp regExp =
+      RegExp(r'youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)');
+  Match match = regExp.firstMatch(url)!;
+  return match.group(1)!;
 }

@@ -38,7 +38,9 @@ class _DatailPageState extends State<DatailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detalhes"),
+        title: const Text("Detalhes", style: TextStyle(color: Colors.white)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
