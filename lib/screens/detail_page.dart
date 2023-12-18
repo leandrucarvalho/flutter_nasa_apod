@@ -58,12 +58,14 @@ class _DatailPageState extends State<DatailPage> {
               },
             ),
             Expanded(
-              child: Text(
-                widget.subtitle,
-                style: const TextStyle(
-                  fontSize: 18,
+              child: SingleChildScrollView(
+                child: Text(
+                  widget.subtitle,
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.justify,
                 ),
-                textAlign: TextAlign.justify,
               ),
             )
           ],
