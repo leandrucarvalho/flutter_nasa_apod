@@ -6,7 +6,9 @@ Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
   if (mediaType == 'video') {
     final VideoPlayerController videoPlayerController =
         VideoPlayerController.networkUrl(Uri.parse(mediaUrl));
+
     await videoPlayerController.initialize();
+
     final ChewieController chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
       autoPlay: true,

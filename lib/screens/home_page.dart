@@ -1,7 +1,9 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:video_player/video_player.dart';
 
 import '../models/apod_pagination_model.dart';
 import '../stores/apod_store.dart';
@@ -16,12 +18,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late ChewieController chewieController;
+
   final apodStore = GetIt.I<ApodStore>();
 
   @override
   void initState() {
     super.initState();
+
     apodStore.fetchApod(ApodPaginationModel(count: 10));
+  }
+
+  @override
+  void dispose() {
+    chewieController.dispose();
+    super.dispose();
   }
 
   @override

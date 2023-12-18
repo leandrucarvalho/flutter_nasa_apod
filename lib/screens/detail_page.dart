@@ -23,20 +23,24 @@ class DatailPage extends StatefulWidget {
 }
 
 class _DatailPageState extends State<DatailPage> {
-  late ChewieController chewieController;
-  late VideoPlayerController videoPlayerController;
+  late ChewieController? chewieController;
+  late VideoPlayerController? videoPlayerController;
 
   final apodStore = GetIt.I<ApodStore>();
 
   @override
   void initState() {
     super.initState();
+    videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.url));
 
     buildMediaWidget(widget.mediaType, widget.url);
   }
 
   @override
   void dispose() {
+    videoPlayerController?.dispose();
+
     super.dispose();
   }
 
