@@ -40,7 +40,7 @@ class _DatailPageState extends State<DatailPage> {
   @override
   void dispose() {
     videoPlayerController?.dispose();
-
+    chewieController?.dispose();
     super.dispose();
   }
 

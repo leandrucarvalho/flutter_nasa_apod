@@ -11,8 +11,8 @@ Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
 
     final ChewieController chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
-      autoPlay: true,
-      looping: true,
+      autoPlay: false,
+      looping: false,
     );
 
     return SizedBox(
@@ -23,6 +23,11 @@ Future<Widget> buildMediaWidget(String mediaType, String mediaUrl) async {
       ),
     );
   } else {
-    return Image.network(mediaUrl, fit: BoxFit.cover);
+    return Image.network(
+      mediaUrl,
+      fit: BoxFit.cover,
+      width: 300,
+      height: 300,
+    );
   }
 }
