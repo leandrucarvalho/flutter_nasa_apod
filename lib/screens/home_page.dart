@@ -50,79 +50,61 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: Colors.blue,
       ),
-      body: Observer(
-        builder: (context) {
-          if (apodStore.apodFuture == null) {
-            return const Center(
-              child: Text('Nenhum dado disponível'),
-            );
-          }
+      body: Observer(builder: (context) {
+        if (apodStore.apodList.isEmpty) {
+          return const Center(
+            child: Text('Nenhum dado disponível'),
+          );
+        }
 
-          switch (apodStore.apodFuture!.status) {
-            case FutureStatus.pending:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            case FutureStatus.rejected:
-              return Center(
-                child: Text('Erro: ${apodStore.apodFuture!.error}'),
-              );
-            case FutureStatus.fulfilled:
-              final apodList = apodStore.apodFuture!.result!;
-              return ListView.separated(
-                controller: _scrollController,
-                itemCount: apodList.length,
-                separatorBuilder: (context, index) => const SizedBox(
-                  height: 8,
-                ),
-                itemBuilder: (context, index) {
-                  final apod = apodList[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DatailPage(
-                              url: apod.url,
-                              subtitle: apod.explanation,
-                              mediaType: apod.mediaType,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        elevation: 5,
-                        child: Column(
-                          children: [
-                            FutureBuilder<Widget>(
-                              future:
-                                  buildMediaWidget(apod.mediaType, apod?.url),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return snapshot.data ?? Container();
-                                } else {
-                                  return const CircularProgressIndicator();
-                                }
-                              },
-                            ),
-                            Text(apod.title)
-                          ],
-                        ),
+        return ListView.separated(
+          controller: _scrollController,
+          itemCount: apodStore.apodList.length,
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 8,
+          ),
+          itemBuilder: (context, index) {
+            final apod = apodStore.apodList[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DatailPage(
+                        url: apod.url ?? "",
+                        subtitle: apod.explanation ?? "",
+                        mediaType: apod.mediaType ?? "",
                       ),
                     ),
                   );
                 },
-              );
-            default:
-              return const Center(
-                child: Text("Ocorreu um problema. Tente novamente mais tarde"),
-              );
-          }
-        },
-      ),
+                child: Card(
+                  elevation: 5,
+                  child: Column(
+                    children: [
+                      FutureBuilder<Widget>(
+                        future: buildMediaWidget(
+                            apod.mediaType ?? "", apod.url ?? ""),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return snapshot.data ?? Container();
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                      Text(apod.title ?? "")
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

@@ -9,19 +9,19 @@ part of 'apod_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ApodStore on ApodStoreBase, Store {
-  late final _$apodFutureAtom =
-      Atom(name: 'ApodStoreBase.apodFuture', context: context);
+  late final _$apodListAtom =
+      Atom(name: 'ApodStoreBase.apodList', context: context);
 
   @override
-  ObservableFuture<List<ApodImageModel>>? get apodFuture {
-    _$apodFutureAtom.reportRead();
-    return super.apodFuture;
+  ObservableList<ApodImageModel> get apodList {
+    _$apodListAtom.reportRead();
+    return super.apodList;
   }
 
   @override
-  set apodFuture(ObservableFuture<List<ApodImageModel>>? value) {
-    _$apodFutureAtom.reportWrite(value, super.apodFuture, () {
-      super.apodFuture = value;
+  set apodList(ObservableList<ApodImageModel> value) {
+    _$apodListAtom.reportWrite(value, super.apodList, () {
+      super.apodList = value;
     });
   }
 
@@ -60,7 +60,7 @@ mixin _$ApodStore on ApodStoreBase, Store {
   @override
   String toString() {
     return '''
-apodFuture: ${apodFuture},
+apodList: ${apodList},
 currentPage: ${currentPage}
     ''';
   }

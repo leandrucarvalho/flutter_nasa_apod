@@ -12,7 +12,10 @@ abstract class ApodStoreBase with Store {
   final ApodService _apodService = ApodService();
 
   @observable
-  ObservableFuture<List<ApodImageModel>>? apodFuture;
+  ObservableList<ApodImageModel> apodList = ObservableList<ApodImageModel>();
+
+  @observable
+  int currentPage = 1;
 
   @action
   Future<void> fetchApod(ApodPaginationModel pagination) async {
@@ -21,18 +24,14 @@ abstract class ApodStoreBase with Store {
       endDate: pagination.endDate,
       count: pagination.count ?? 10,
     );
-    apodFuture = ObservableFuture(_apodService.fetchApods(limitedPagination));
+    apodList.clear();
+    apodList.addAll(await _apodService.fetchApods(limitedPagination));
   }
-
-  @observable
-  int currentPage = 1;
 
   @action
   Future<void> fetchMoreApod() async {
     currentPage++;
     final pagination = ApodPaginationModel(count: 10 * currentPage);
-    apodFuture = ObservableFuture(
-      _apodService.fetchApods(pagination),
-    );
+    apodList.addAll(await _apodService.fetchApods(pagination));
   }
 }
